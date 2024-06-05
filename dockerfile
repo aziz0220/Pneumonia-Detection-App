@@ -60,11 +60,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # into this layer.
 RUN python -m pip install --upgrade pip
 RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=bind,source=flask/requirements.txt,target=flask/requirements.txt \
-    python -m pip install -r flask/requirements.txt
+    --mount=type=bind,source=requirements.txt,target=requirements.txt \
+    python -m pip install -r requirements.txt
 
 # Copy the rest of the application code
 COPY . .
+
+
+COPY /optimizer_fix/optimizer.py ../usr/local/lib/python3.10/site-packages/keras/optimizers/optimizer_experimental/
 
 # Expose the port used by the Flask app
 EXPOSE 8000

@@ -1,4 +1,3 @@
-# app2.py
 from flask import Flask, render_template, request, send_from_directory, url_for
 import os
 from test3 import get_prediction3
@@ -8,7 +7,7 @@ app = Flask(__name__)
 
 # define the allowed file extensions
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-wanteddirectory = '/home/aziz0220/mysite/uploads/'
+wanteddirectory = '/app/uploads/'
 # check if a file has an allowed extension
 def allowed_file(filename):
     return '.' in filename and \
@@ -58,5 +57,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    app.run(host='0.0.0.0', port=8000, debug=True)

@@ -1,8 +1,7 @@
-import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 from keras.models import load_model
 import numpy as np
-import os
+
 def predict_class(image_path, model):
     img = image.load_img(image_path, target_size=(150, 150))
     img_tensor = image.img_to_array(img)
@@ -16,7 +15,7 @@ def predict_class(image_path, model):
         return("PNEUMONIE",prediction[0][0])
 
 def get_prediction1(filename, wanteddirectory):
-    model_path = '/home/aziz0220/mysite/usingvgg16.h5' 
+    model_path = '/app/usingvgg16.h5' 
     model = load_model(model_path)
     image_path = wanteddirectory+filename
     return predict_class(image_path, model)
