@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/css/style.css">
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+    <title>Pneumonia Online Detector</title>
+</head>
+<body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+    <script>
+        Dropzone.options.myDropzone = {
+            paramName: "file",
+            maxFilesize: 2, // MB
+            acceptedFiles: ".jpeg,.jpg,.png,.gif",
+            init: function () {
+                this.on("success", function () {
+                    // Refresh page after successful upload
+                    location.reload();
+                });
+            }
+        };
+        document.getElementById("fileInput").addEventListener("change", function () {
+            Dropzone.options.myDropzone.clickable = false;
+        });
+        function displayImage() {
+          var input = document.getElementById("fileInput");
+          var preview = document.getElementById("previewImage");
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(event) {
+              preview.src = event.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+    </script>
+
+    <div class="header">
+        <h3>Advanced AI technology for Pneumonia detection </h1>
+    </div>
+
+    <div class="navbar">
+        <div class="brand">
+            <h3>Pneumo<span>AI</span> </h3>
+            <h5>Innovative AI for Healthcare</h5>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#feedback-section">Feedback</a></li>
+                <li><a href="#contact-section">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+        <h1>Trusted Pneumonia detection tool,<br> get your prediction <span> Now!</span></h1>
+        <div class="instruction-boxes">
+            <div class="instruction-box">
+                <i class="fas fa-upload"></i>
+                <h3>Bring image </h3>
+                <p>Get a clear and net chest X-ray image. </p>
+            </div>
+            <div class="instruction-box">
+                <i class="fas fa-check"></i>
+                <h3>Upload it</h3>
+                <p>Upload the image in JPEG, PNG or GIF format .</p>
+            </div>
+            <div class="instruction-box">
+                <i class="fas fa-download"></i>
+                <h3>Get prediction</h3>
+                <p>Get the accurate prediction of the uploaded chest's image.</p>
+            </div>
+        </div>
+
+        {% if error1 %}
+            <p class="error-message">{{ error1 }}</p>
+        {% endif %}
+        {% if prediction1 %}
+            <h2 class="result-heading">Results</h2>
+            <p class="result-text">Case detected : <strong>{{ prediction1 }}</strong>, with a confidence level of :<strong>{{ percent }}%</strong>.</p>
+            <div class="progress">
+                <div class="progress-bar" style="width: {{ percent }}%;"></div>
+            </div>
+        {% endif %}
+        {% if image_url %}
+            <img class="image_url" src="{{ image_url }}" alt="Uploaded Image">
+        {% endif %}
+
+        <form method="POST" action="/predict" enctype="multipart/form-data" class="upload-form">
+
+            <input type="file" name="file" id="fileInput"  onchange="displayImage()" accept="image/*"  class="file-input">
+            <img id="previewImage" src="./static/css/upload2.jpeg" alt="Preview Image" width="100">
+            <label for="fileInput" class="upload-button">Choose a file</label>
+            <div class="box">
+                <label for="model-select" class="model-select" >Select a model:</label>
+                <select id="model-select" name="selected_model">
+                    <option value="model1">Model 1 :USING TRANSFERT LEARNING(EfficientNetB0)</option>
+                    <option value="model3">Model 2 :Our own improved CNN </option>
+                    <option value="model2">Model 3 :SEQUENCIAL MODAL WITH 3 CLASSES DETECTION : NORMAL/BACTIRIA/VIRUS</option>
+                </select>
+            </div>
+            <input type="submit" value="Predict" class="predict-button">
+        </form>
+    </div>
+
+    <div class="last">
+        <h3>Contact Us!</h3>
+        <div id="contact-section">
+            <div id="contact">
+                <div class="profile-card">
+                    <div class="image">
+                        <img src="./static/css/mohamed.jpg" alt="" class="profile-img" />
+                    </div>
+                    <div class="text-data">
+                      <span class="name">Mohamed NAJJAR</span>
+                      <span class="job">Software Engineering student</span>
+                      <span class="class">at ENSIT</span>
+                    </div>
+
+            <div class="media-buttons">
+              <a href="https://www.facebook.com/mohamed.najjar.12914" style="background: #38c6df" class="link">
+                <i class="bx bxl-facebook"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/najjar-mohamed-nadhir-96429b249/" style="background: #38c6df" class="link">
+                <i class="bx bxl-linkedin" ></i>              </a>
+              <a href="mailto:najjarmohamed443@gmail.com" style="background: #38c6df" class="link">
+                <i class="bx bx-envelope-open"></i>
+              </a>
+            </div>
+                </div>
+            </div>
+
+            <div id="contact">
+                <div class="profile-card">
+                    <div class="image">
+                        <img src="./static/css/aziz.jpg" alt="" class="profile-img" />
+                    </div>
+                    <div class="text-data">
+                        <span class="name">Aziz BENAMOR</span>
+                        <span class="job">Software Engineering student</span>
+                        <span class="job">at ENSIT</span>
+                    </div>
+                    <div class="media-buttons">
+                        <a href="https://www.facebook.com/azizbenamor20" class="link"  >
+                            <i class="bx bxl-facebook"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/aziz-benamor-03b603242/" class="link"  >
+                            <i class="bx bxl-linkedin" ></i>
+                        </a>
+                        <a href="mailto:benamoraziz0220@gmail.com" class="link"  >
+                            <i class="bx bx-envelope-open"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="feedback-section">
+        <div class="wrapper">
+                <div class="title">
+                    <h1>Your Feedbacks</h1>
+                </div>
+            <div class="contact-form">
+                <div class="input-fields">
+                    <input type="text" class="input" placeholder="Name">
+                    <input type="text" class="input" placeholder="Email Address">
+                    <input type="text" class="input" placeholder="Phone">
+                    <input type="text" class="input" placeholder="Subject">
+                </div>
+                <div class="msg">
+                    <textarea placeholder="Message"></textarea>
+                    <div class="btn">send</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer >
+        <p>Copyright © 2023 PneumoAI. All rights reserved.</p>
+    </footer>
+</body>
+</html>
